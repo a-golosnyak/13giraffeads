@@ -11,6 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('/', 'AdController@getAdds');
+
+Route::get('/createad', function () {
+    return view('createad');
 });
+
+
+
+/*
+Route::get('/', 'PagesController@getHome');
+Route::get('/createad', 'PagesController@getCreateAd');
+*/
+Route::post('/createad/submit', 'AdController@submit');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
