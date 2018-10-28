@@ -12,20 +12,17 @@
 */
 
 
-Route::get('/', 'AdController@getAdds');
-
-Route::get('/createad', function () {
-    return view('createad');
-});
-
-
+Route::get ('/', 			'AdController@getAds');
+Route::get ('/edit', 		'AdController@createAd');
+Route::post('/edit/submit', 'AdController@submit');
+Route::get('/edit/{id}', 	'AdController@editAd');
+Route::get('/delete/{id}', 'AdController@delete');
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/{id}', 'AdController@getAd');
 
 /*
 Route::get('/', 'PagesController@getHome');
 Route::get('/createad', 'PagesController@getCreateAd');
 */
-Route::post('/createad/submit', 'AdController@submit');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
