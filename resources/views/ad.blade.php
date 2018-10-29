@@ -14,7 +14,7 @@
                 @else
                     @if (Auth::user()->name == $ad->author)
 					<a href="delete/{{$ad->id}}"><button class="btn" type="submit">Delete</button></a> 
-					{{--	<a href="edit/{{$ad->id}}"><button class="btn m-x-1" type="submit">Edit</button></a> --}}
+					<a href="/edit/{{$ad->id}}"><button class="btn m-x-1" type="submit">Edit</button></a>
 					@endif
                 @endguest
 			@endforeach

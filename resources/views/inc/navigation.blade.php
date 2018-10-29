@@ -5,7 +5,7 @@
 <div class="navigation">
     <div class="row ">
         <div class="container">
-            <div class="col-xs-6"> 
+            <div class="pull-xs-left"> 
                 <div class="nav nav-tabs ">
                     <div class="nav-item">
                         @guest
@@ -15,12 +15,7 @@
                     </div>
                 </div>
             </div>
-            <div class=" col-xs-1">
-
-            </div>
-            <div class=" col-xs-3"> 
-            </div>
-            <div class=" col-xs-2">
+            <div class="pull-xs-right">
                 <div class="nav nav-tabs">
                     <div class="nav-item dropdown " style="vertical-align: right;">
                         
@@ -36,7 +31,7 @@
                                     @csrf
 
                                     <div class='dropdown-item'>
-                                        <input id="email" type='email' name='email' maxlength='30' size='20' class='form-control{{ $errors->has('email') ? ' is-invalid' : '' }}' placeholder='Email address' required autofocus>
+                                        <input id="name" type='name' name='name' maxlength='30' size='20' class='form-control{{ $errors->has('name') ? ' is-invalid' : '' }}' placeholder='Username' required autofocus>
                                     </div>
 
                                     <div class='dropdown-item'>
