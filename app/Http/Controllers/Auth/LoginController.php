@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Controllers\Auth\AuthenticatesUsersCustom;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Auth\Events\Registered;
@@ -23,7 +23,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsersCustom;
 
 
     /**
