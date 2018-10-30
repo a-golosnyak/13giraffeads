@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-//use Illuminate\Validation\Validator;
-//use Illuminate\Contracts\Validation\Validator;
 use Validator;
+use Illuminate\Auth\Events\Registered;
+use App\User;
+use Hash;
 
 class LoginController extends Controller
 {
