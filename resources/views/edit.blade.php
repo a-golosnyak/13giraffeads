@@ -6,10 +6,10 @@
 	        <div class='profile-field ' >
 	        	<br>
 				{{ Form::label('Title', '')}}
-				{{ Form::text('title', $title, ['class'=>'form-control']) }}
+				{{ Form::text('title', $title, ['class'=>'form-control', 'placeholder' => 'Tipe title here']) }}
 				<br>
 				{{ Form::label('Description', '')}}
-				{{ Form::textarea('description', $description, ['class'=>'form-control']) }}
+				{{ Form::textarea('description', $description, ['class'=>'form-control', 'placeholder' => 'Tipe ad here']) }}
 				{{ Form::hidden('author', Auth::user()->name, ['class'=>'form-control'])}}
 				{{ Form::hidden('id', $id, ['class'=>'form-control'])}}
 				<br>

@@ -35,8 +35,8 @@ class AdController extends Controller
 
     public function createAd()
     {
-        return view('edit', ['title' => 'Tipe title here',
-                            'description' => 'Tipe ad here',
+        return view('edit', ['title' => '',
+                            'description' => '',
                             'but' => 'Create',
                             'action'=>'edit/submit',
                             'id'=>'0']);

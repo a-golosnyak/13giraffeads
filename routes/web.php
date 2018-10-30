@@ -21,8 +21,3 @@ Route::get('/delete/{id}', 'AdController@delete');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/{id}', 'AdController@getAd');
-
-/*
-Route::get('/', 'PagesController@getHome');
-Route::get('/createad', 'PagesController@getCreateAd');
-*/

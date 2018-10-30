@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="{{URL::asset('css/main.css')}}">
     </head>
     <body>
-
+        <a name="top"></a>
         <div class="cite-header">
             <div class="container">
                 <h3 class="cite-title none-decored"> 
@@ -32,7 +32,7 @@
 
         <footer class="blog-footer">
             <p>Copyright  ©. All Rights Reserved. </p>
-            <p><a class='none-decored' href="#">Back to top</a>
+            <p><a class='none-decored' href="#top">Back to top</a>
             </p>
         </footer>
 

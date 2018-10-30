@@ -8,11 +8,10 @@ class PagesController extends Controller
 {
     public function getHome()
     {
-    	return view('ads');
+        return view('ads');
     }
     public function getCreateAd()
     {
-    	return view('edit');
+        return view('edit');
     }
-
 }
