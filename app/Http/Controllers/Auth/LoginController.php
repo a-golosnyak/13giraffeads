@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-
-namespace App\Http\Controllers\Auth;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
+//use Illuminate\Validation\Validator;
+//use Illuminate\Contracts\Validation\Validator;
+use Validator;
 
 class LoginController extends Controller
 {
@@ -109,8 +106,9 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $this->validateLogin($request);
+        $retval = $this->attemptLogin($request);
 
-        if ($this->attemptLogin($request)) {
+        if ($retval) {
             return $this->sendLoginResponse($request);
         } else {
             $this->register($request);
