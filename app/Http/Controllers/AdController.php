@@ -20,8 +20,16 @@ class AdController extends Controller
         $ad->title = $request->input('title');
         $ad->description = $request->input('description');
         $ad->author = $request->input('author');
-        $ad->save();
+        $ad->created_at = date("Y-m-d H:i:s");
 
+        $ads = DB::update(" INSERT INTO ads 
+                            SET 
+                            title='$ad->title',
+                            description='$ad->description',
+                            author='$ad->author',
+                            created_at='$ad->created_at'");
+
+        $ad->id = DB::getPdo()->lastInsertId();
         return redirect("/$ad->id")->with('status', 'Ad created');
     }
 
@@ -45,7 +53,7 @@ class AdController extends Controller
         $action = 'edit/edit/' . $id;
         return view('/edit', [  'title'=>$title,
                                 'description' => $description,
-                                'but' => 'Edit',
+                                'but' => 'Save',
                                 'action' => $action,
                                 'id'=>$id]);
     }
@@ -86,9 +94,11 @@ class AdController extends Controller
 
     public function getAd($id)
     {
-        $ads = DB::select('SELECT * FROM ads where id = ?', [$id]);
+        $ad = DB::select('SELECT * FROM ads where id = ?', [$id]);
 
-        return view('ad', ['ads' => $ads]);
+        $ad[0]->created_at = substr($ad[0]->created_at, 0, strpos($ad[0]->created_at, ' '));
+
+        return view('ad', ['ads' => $ad]);
     }
 
     public function delete($id)

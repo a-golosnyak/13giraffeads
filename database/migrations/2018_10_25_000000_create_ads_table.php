@@ -18,7 +18,7 @@ class CreatePasswordResetsTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('author');
-            $table->timestamps();
+            $table->datetime('created_at');
 //            $table->timestamp('created_at')->nullable();
         });
     }

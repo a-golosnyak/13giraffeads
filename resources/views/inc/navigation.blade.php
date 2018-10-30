@@ -20,7 +20,7 @@
                     <div class="nav-item dropdown " style="vertical-align: right;">
                         
                     @guest
-                        <div class='nav-link dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>Вход</div>
+                        <div class='nav-link dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>Sign in</div>
                     @else
                         <div class='nav-link dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>{{ Auth::user()->name }}</div>
                     @endguest
@@ -39,7 +39,7 @@
                                     </div>
 
                                     <div class='dropdown-item'>
-                                        <button class='btn btn-md btn-secondary btn-block p-x-3' type='submit'> Вход </button>
+                                        <button class='btn btn-md btn-secondary btn-block p-x-3' type='submit'> Sign in </button>
                                     </div>
                                 </form>
                             @else
