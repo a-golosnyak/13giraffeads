@@ -22,13 +22,7 @@ class AdController extends Controller
         $ad->description = $request->input('description');
         $ad->author = $request->input('author');
         $ad->created_at = date("Y-m-d H:i:s");
-
-        $ads = DB::update(" INSERT INTO ads 
-                            SET 
-                            title='$ad->title',
-                            description='$ad->description',
-                            author='$ad->author',
-                            created_at='$ad->created_at'");
+        $ad->save();
 
         $ad->id = DB::getPdo()->lastInsertId();
         return redirect("/$ad->id")->with('status', 'Ad created');
@@ -45,10 +39,9 @@ class AdController extends Controller
     
     public function editAd($id)
     {  
-        $ads = DB::select('SELECT * FROM ads where id = ?', [$id]);
-        $author = $ads[0]->author;
+        $ads = Ad::where('id', "$id")->get();
 
-        if(Auth::user()->name == $author)
+        if(Auth::user()->name == $ads[0]->author)
         {
             $action = 'edit/edit/';
             return view('/edit', [  'title'=>$ads[0]->title,
@@ -65,33 +58,28 @@ class AdController extends Controller
 
     public function updateAd(Request $request)
     {
-        $ads = DB::select('SELECT * FROM ads where id = ?', [$id]);
-        $author = $ads[0]->author;
-
-        if(Auth::user()->name == $author)
-        {
-            $this->validate($request, [
+        $this->validate($request, [
                 'title' => 'required',
                 'description' => 'required',
                 'author' => 'required',
                 'id' => 'required'
             ]);
 
-            $ad = new Ad;
-            $ad->id = $request->input('id');
-            $ad->title = $request->input('title');
-            $ad->description = $request->input('description');
-            $ad->author = $request->input('author');
+        $ad = new Ad;
+        $ad->id = $request->input('id');
+        $ad->title = $request->input('title');
+        $ad->description = $request->input('description');
+        $ad->author = $request->input('author');
 
-            $ads = DB::update(
-                "  UPDATE ads 
-                                SET 
-                                title='$ad->title',
-                                description='$ad->description',
-                                author='$ad->author'
-                                WHERE id='$ad->id'",
-                                [$ad->id]
-            );
+        $ads = Ad::where('id', $ad->id)->get();
+
+        if(Auth::user()->name == $ads[0]->author)
+        {
+            Ad::where('id', $ad->id)
+             ->update(['title'=>$ad->title,
+                        'description'=>$ad->description,
+                        'author'=>$ad->author]);
+
             return redirect("/")->with('status', 'Ad updated');
         }
         else
@@ -109,7 +97,7 @@ class AdController extends Controller
 
     public function getAd($id)
     {
-        $ad = DB::select('SELECT * FROM ads where id = ?', [$id]);
+        $ad = Ad::where('id', $id)->get();
         $ad[0]->created_at = substr($ad[0]->created_at, 0, strpos($ad[0]->created_at, ' '));
 
         return view('ad', ['ads' => $ad]);
@@ -117,12 +105,11 @@ class AdController extends Controller
 
     public function delete($id)
     {
-        $ads = DB::select('SELECT * FROM ads where id = ?', [$id]);
-        $author = $ads[0]->author;
+        $ad = Ad::where('id', $id)->get();
 
-        if(Auth::user()->name == $author)
+        if(Auth::user()->name == $ad[0]->author)
         {
-            $ads = DB::delete('DELETE FROM ads where id = ?', [$id]);
+            $ad = Ad::where('id', $id)->delete();
             return redirect("/")->with('status', 'Ad deleted');
         }
         else
