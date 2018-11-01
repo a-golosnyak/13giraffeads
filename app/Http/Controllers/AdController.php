@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Ad;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class AdController extends Controller
 {
     public function submit(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'required|max:150',
+            'description' => 'required|max:1500',
             'author' => 'required'
         ]);
 
@@ -43,46 +44,60 @@ class AdController extends Controller
     }
     
     public function editAd($id)
-    {
+    {  
         $ads = DB::select('SELECT * FROM ads where id = ?', [$id]);
-    
-        foreach ($ads as $ad) {
-            $title = $ad->title;
-            $description = $ad->description;
+        $author = $ads[0]->author;
+
+        if(Auth::user()->name == $author)
+        {
+            $action = 'edit/edit/';
+            return view('/edit', [  'title'=>$ads[0]->title,
+                                    'description' => $ads[0]->description,
+                                    'but' => 'Save',
+                                    'action' => $action,
+                                    'id'=>$id]);
         }
-        $action = 'edit/edit/' . $id;
-        return view('/edit', [  'title'=>$title,
-                                'description' => $description,
-                                'but' => 'Save',
-                                'action' => $action,
-                                'id'=>$id]);
+        else
+        {
+            abort(403);
+        }
     }
 
     public function updateAd(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'description' => 'required',
-            'author' => 'required',
-            'id' => 'required'
-        ]);
+        $ads = DB::select('SELECT * FROM ads where id = ?', [$id]);
+        $author = $ads[0]->author;
 
-        $ad = new Ad;
-        $ad->id = $request->input('id');
-        $ad->title = $request->input('title');
-        $ad->description = $request->input('description');
-        $ad->author = $request->input('author');
+        if(Auth::user()->name == $author)
+        {
+            $this->validate($request, [
+                'title' => 'required',
+                'description' => 'required',
+                'author' => 'required',
+                'id' => 'required'
+            ]);
 
-        $ads = DB::update(
-            "  UPDATE ads 
-                            SET 
-                            title='$ad->title',
-                            description='$ad->description',
-                            author='$ad->author'
-                            WHERE id='$ad->id'",
-                            [$ad->id]
-        );
-        return redirect("/")->with('status', 'Ad updated');
+            $ad = new Ad;
+            $ad->id = $request->input('id');
+            $ad->title = $request->input('title');
+            $ad->description = $request->input('description');
+            $ad->author = $request->input('author');
+
+            $ads = DB::update(
+                "  UPDATE ads 
+                                SET 
+                                title='$ad->title',
+                                description='$ad->description',
+                                author='$ad->author'
+                                WHERE id='$ad->id'",
+                                [$ad->id]
+            );
+            return redirect("/")->with('status', 'Ad updated');
+        }
+        else
+        {
+            abort(403);
+        }
     }
     
     public function getAds()
@@ -95,7 +110,6 @@ class AdController extends Controller
     public function getAd($id)
     {
         $ad = DB::select('SELECT * FROM ads where id = ?', [$id]);
-
         $ad[0]->created_at = substr($ad[0]->created_at, 0, strpos($ad[0]->created_at, ' '));
 
         return view('ad', ['ads' => $ad]);
@@ -103,8 +117,17 @@ class AdController extends Controller
 
     public function delete($id)
     {
-        $ads = DB::delete('DELETE FROM ads where id = ?', [$id]);
+        $ads = DB::select('SELECT * FROM ads where id = ?', [$id]);
+        $author = $ads[0]->author;
 
-        return redirect("/")->with('status', 'Ad deleted');
+        if(Auth::user()->name == $author)
+        {
+            $ads = DB::delete('DELETE FROM ads where id = ?', [$id]);
+            return redirect("/")->with('status', 'Ad deleted');
+        }
+        else
+        {
+            abort(403);
+        }
     }
 }

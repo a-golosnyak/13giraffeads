@@ -15,8 +15,8 @@ class CreatePasswordResetsTable extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->text('description');
+            $table->string('title', 150);
+            $table->text('description', 1500);
             $table->string('author');
             $table->datetime('created_at');
 //            $table->timestamp('created_at')->nullable();

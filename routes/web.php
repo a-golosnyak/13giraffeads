@@ -16,7 +16,7 @@ Route::get('/', 'AdController@getAds');
 Route::get('/edit/{id}', 'AdController@editAd');
 Route::get('/edit', 'AdController@createAd');
 Route::post('/edit/submit', 'AdController@submit');
-Route::post('/edit/edit/{id}', 'AdController@updateAd');
+Route::post('/edit/edit', 'AdController@updateAd');
 Route::get('/delete/{id}', 'AdController@delete');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
